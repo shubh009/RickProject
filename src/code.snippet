@@ -1,0 +1,89 @@
+##############################################
+side menu with link
+const navigation = [
+  {
+    title: "Dashboard",
+    href: "/starter",
+    icon: "bi bi-speedometer2"
+  },
+  {
+    title: "Gmail Access",
+    href: "/alerts",
+    icon: "bi bi-bell"
+  },
+  {
+    title: "Reports",
+    href: "/badges",
+    icon: "bi bi-columns"
+  },
+  {
+    title: "Manage Users",
+    href: "/buttons",
+    icon: "bi bi-people"
+  },
+  {
+    title: "Change Password",
+    href: "/cards",
+    icon: "bi bi-key"
+  },
+  {
+    title: "Grid",
+    href: "/grid",
+    icon: "bi bi-columns"
+  },
+  {
+    title: "Table",
+    href: "/table",
+    icon: "bi bi-layout-split"
+  },
+  {
+    title: "Forms",
+    href: "/forms",
+    icon: "bi bi-textarea-resize"
+  },
+  {
+    title: "Breadcrumbs",
+    href: "/breadcrumbs",
+    icon: "bi bi-link"
+  },
+  {
+    title: "About",
+    href: "/about",
+    icon: "bi bi-people"
+  }
+];
+##############################################
+
+
+
+################################################
+{code for bind blog data}
+<Row>
+        {BlogData.map((blg, index) =>
+          <Col sm="6" lg="6" xl="3" key={index}>
+            <Blog
+              image={blg.image}
+              title={blg.title}
+              subtitle={blg.subtitle}
+              text={blg.description}
+              color={blg.btnbg}
+            />
+          </Col>
+        )}
+</Row>
+{code for bind blog data}
+##############################################
+
+
+##############################################
+{/***Sales & Feed***/}
+      {/* <Row>
+        <Col sm="6" lg="6" xl="7" xxl="8">
+          <SalesChart />
+        </Col>
+        <Col sm="6" lg="6" xl="5" xxl="4">
+          <Feeds />
+        </Col>
+      </Row> */}
+{/***Sales & Feed***/}
+##############################################
