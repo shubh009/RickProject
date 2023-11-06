@@ -4,7 +4,11 @@ import Themeroutes from "./routes/Router";
 const App = () => {
   const routing = useRoutes(Themeroutes);
 
-  return <div className="dark">{routing}</div>;
+  return (
+    <div className="dark">
+      {routing}
+    </div>
+  );
 };
 
 export default App;
