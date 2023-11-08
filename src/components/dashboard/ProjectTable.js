@@ -1,9 +1,8 @@
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { backendUrl } from "../../utils/axios";
+
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
-import user1 from "../../assets/images/users/user1.jpg";
-import user2 from "../../assets/images/users/user2.jpg";
-import user3 from "../../assets/images/users/user3.jpg";
-import user4 from "../../assets/images/users/user4.jpg";
-import user5 from "../../assets/images/users/user5.jpg";
 
 const tableData = [
   {
@@ -12,7 +11,7 @@ const tableData = [
     status: "90",
     weeks: "35",
     budget: "111",
-    week4: "45"
+    week4: "45",
   },
   {
     name: "Feburary",
@@ -20,7 +19,7 @@ const tableData = [
     status: "78",
     weeks: "35",
     budget: "22",
-    week4: "35"
+    week4: "35",
   },
   {
     name: "March",
@@ -28,7 +27,7 @@ const tableData = [
     status: "56",
     weeks: "35",
     budget: "5",
-    week4: "76"
+    week4: "76",
   },
   {
     name: "April",
@@ -36,7 +35,7 @@ const tableData = [
     status: "89",
     weeks: "35",
     budget: "3",
-    week4: "87"
+    week4: "87",
   },
   {
     name: "May",
@@ -44,7 +43,7 @@ const tableData = [
     status: "done",
     weeks: "35",
     budget: "12",
-    week4: "23"
+    week4: "23",
   },
   {
     name: "June",
@@ -52,7 +51,7 @@ const tableData = [
     status: "56",
     weeks: "35",
     budget: "89",
-    week4: "34"
+    week4: "34",
   },
   {
     name: "July",
@@ -60,11 +59,34 @@ const tableData = [
     status: "done",
     weeks: "35",
     budget: "95",
-    week4: "56"
-  }
+    week4: "56",
+  },
 ];
 
 const ProjectTables = () => {
+  const [tabData, setTabData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [checked, seChecked] = useState(false);
+
+  useEffect(() => {
+    getTableData();
+  }, []);
+
+  const getTableData = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(
+        `${backendUrl}/dashboard/getDashboardData`
+      );
+      console.log(data);
+      setTabData(data?.dashboardData);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <Card>
@@ -87,37 +109,24 @@ const ProjectTables = () => {
               </tr>
             </thead>
             <tbody>
-              {tableData.map((tdata, index) =>
+              {tabData.map((tdata, index) => (
                 <tr key={index} className="border-top">
                   <td>
                     <div className="d-flex align-items-center p-2">
                       <div>
-                        <h6 className="mb-0">
-                          {tdata.name}
-                        </h6>
-                        <span className="text-muted">
-                          {tdata.email}
-                        </span>
+                        <h6 className="mb-0">{tdata?.month}</h6>
+                        {/* <span className="text-muted">{tdata.email}</span> */}
                       </div>
                     </div>
                   </td>
-                  <td>
-                    {tdata.project}
-                  </td>
-                  <td>
-                    {tdata.status}
-                  </td>
-                  <td>
-                    {tdata.weeks}
-                  </td>
-                  <td>
-                    {tdata.budget}
-                  </td>
-                  <td>
-                    {tdata.week4}
-                  </td>
+                  <td>{tdata?.monthlyCount}</td>
+                  
+                  <td>{tdata?.week1}</td>
+                  <td>{tdata?.week2}</td>
+                  <td>{tdata?.week3}</td>
+                  <td>{tdata?.week4}</td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </Table>
         </CardBody>
