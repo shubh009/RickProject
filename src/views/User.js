@@ -177,8 +177,8 @@ const ManageUsers = () => {
                   onChange={e => setUserType(e.target.value)}
                 >
                   <option>Admin Type</option>
-                  <option>Employee</option>
-                  <option>Admin</option>
+                  <option value="user" >Employee</option>
+                  <option value="admin" >Admin</option>
                 </Input>
               </FormGroup>
 
