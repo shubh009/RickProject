@@ -16,11 +16,6 @@ import { toastMessage } from "../utils/toast";
 import { useNavigate } from "react-router-dom";
 
 const ManageUsers = () => {
-  const tableData = [
-    { name: "Shubhanshu", email: "Shubh@gmail.com", acesstype: "emp" },
-    { name: "Anshu", email: "anshu@gmail.com", acesstype: "emp" },
-    { name: "Sajid", email: "sajid@gmail.com", acesstype: "emp" }
-  ];
 
   const [name, setName] = useState("");
   const [email, setemail] = useState("");
@@ -36,9 +31,7 @@ const ManageUsers = () => {
       let { data } = await axios({
         method: "post",
         url: `${backendUrl}/auth/signup/`,
-        headers: {
-          "Content-Type": "application/json"
-        },
+       
         data: {
           name: name,
           email: email,
