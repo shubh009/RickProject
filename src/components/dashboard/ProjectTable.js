@@ -73,7 +73,7 @@ const ProjectTables = () => {
   }, []);
 
   const getTableData = async () => {
-    try {
+    
       setLoading(true);
       const { data } = await axios.get(
         `${backendUrl}/dashboard/getDashboardData`
@@ -81,10 +81,7 @@ const ProjectTables = () => {
       console.log(data);
       setTabData(data?.dashboardData);
       setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
+    
   };
 
   return (

@@ -11,7 +11,8 @@ const ManageUsers = lazy(() => import("../views/User.js"));
 const ChangePassword = lazy(() => import("../views/ChangePassword.js"));
 const UserProfile = lazy(() => import("../views/UserProfile.js"));
 const AdminLogin = lazy(() => import("../Auth/Login.js"));
-// const About = lazy(() => import("../views/About.js"));
+const Reports = lazy(() => import("../views/Reports.js"));
+const About = lazy(() => import("../views/About.js"));
 // const Alerts = lazy(() => import("../views/ui/Alerts"));
 // const Badges = lazy(() => import("../views/ui/Badges"));
 // const Buttons = lazy(() => import("../views/ui/Buttons"));
@@ -32,9 +33,10 @@ const ThemeRoutes = [
       { path: "/starter", exact: true, element: <Starter /> },
       { path: "/manage-users", exact: true, element: <ManageUsers /> },
       { path: "/change-password", exact: true, element: <ChangePassword /> },
-      { path: "/user-profile", exact: true, element: <UserProfile /> }
+      { path: "/user-profile", exact: true, element: <UserProfile /> },
+      { path: "/reports", exact: true, element: <Reports /> },
       // { path: "/Login", exact: true, element: <AdminLogin /> }
-      // { path: "/about", exact: true, element: <About /> },
+      { path: "/about", exact: true, element: <About /> }
       // { path: "/alerts", exact: true, element: <Alerts /> },
       // { path: "/badges", exact: true, element: <Badges /> },
       // { path: "/buttons", exact: true, element: <Buttons /> },

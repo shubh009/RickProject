@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from "react";
 import { Col, Row } from "reactstrap";
-import TopCards from "../components/dashboard/TopCards";
 import {
   Table,
   Card,
@@ -8,10 +8,12 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  FormText,
-  Button
+  Input
 } from "reactstrap";
+import axios from "axios";
+import { backendUrl } from "../utils/axios";
+import { toastMessage } from "../utils/toast";
+import { useNavigate } from "react-router-dom";
 
 const ManageUsers = () => {
   const tableData = [
@@ -20,49 +22,61 @@ const ManageUsers = () => {
     { name: "Sajid", email: "sajid@gmail.com", acesstype: "emp" }
   ];
 
+  const [name, setName] = useState("");
+  const [email, setemail] = useState("");
+  const [password, setPassword] = useState("");
+  const [ userType, setUserType ] = useState( "" );
+  const [tabData, setTabData] = useState([""]);
+
+  const submitThis = async () => {
+    alert(name + email + password + userType);
+    // console.log( name + email + password + userType );
+
+    try {
+      let { data } = await axios({
+        method: "post",
+        url: `${backendUrl}/auth/signup/`,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: {
+          name: name,
+          email: email,
+          password: password,
+          role: userType
+        }
+      });
+      console.log(data);
+      //console.log(JSON.stringify(data.message));
+    } catch (error) {
+      console.error("Error during API call:", error);
+      // Handle the error, show a user-friendly message, etc.
+    }
+  };
+
+
+
+  useEffect(() => {
+    getTableData();
+  }, []);
+
+  const getTableData = async () => {
+    try {
+      
+      const { data } = await axios.get(
+        `${backendUrl}/auth/getAllUsers`
+      );
+      console.log(data);
+      setTabData(data?.users);
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  };
+
   return (
     <div>
-      {/***Top Cards***/}
-      <Row>
-        <Col sm="6" lg="3">
-          <TopCards
-            bg="bg-light-success text-success"
-            title="Profit"
-            subtitle="Total Push: August"
-            earning="21"
-            icon="bi bi-wallet"
-          />
-        </Col>
-        <Col sm="6" lg="3">
-          <TopCards
-            bg="bg-light-danger text-danger"
-            title="Refunds"
-            subtitle="Total Push: September"
-            month="Janurary"
-            earning="40"
-            icon="bi bi-coin"
-          />
-        </Col>
-        <Col sm="6" lg="3">
-          <TopCards
-            bg="bg-light-warning text-warning"
-            title="New Project"
-            subtitle="Total Push: October"
-            earning="456"
-            icon="bi bi-basket3"
-          />
-        </Col>
-        <Col sm="6" lg="3">
-          <TopCards
-            bg="bg-light-info text-into"
-            title="Sales"
-            subtitle="Total Push: November"
-            earning="210"
-            icon="bi bi-bag"
-          />
-        </Col>
-      </Row>
-
       {/***Table ***/}
 
       <Row>
@@ -80,7 +94,7 @@ const ManageUsers = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {tableData.map((tdata, index) =>
+                  {tabData.map((tdata, index) =>
                     <tr key={index} className="border-top">
                       <td>
                         <div className="d-flex align-items-center p-2">
@@ -95,7 +109,7 @@ const ManageUsers = () => {
                         {" "}{tdata.email}
                       </td>
                       <td>
-                        {tdata.acesstype}
+                        {tdata.role}
                       </td>
                       <td className="text-center">
                         <i className="bi bi-trash text-danger" />
@@ -113,49 +127,67 @@ const ManageUsers = () => {
               Add New User
             </CardTitle>
             <CardBody>
-              <Form>
-                <FormGroup>
-                  <Label for="examplename" className="fw-bold">
-                    Name
-                  </Label>
-                  <Input id="examplename" name="name" placeholder="Name" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail" className="fw-bold">
-                    Email
-                  </Label>
-                  <Input
-                    id="exampleEmail"
-                    name="email"
-                    placeholder="email"
-                    type="email"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="examplePassword" className="fw-bold">
-                    Password
-                  </Label>
-                  <Input
-                    id="examplePassword"
-                    name="password"
-                    placeholder="password"
-                    type="Password"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleSelect" className="fw-bold">
-                    Select User Type
-                  </Label>
-                  <Input id="exampleSelect" name="select" type="select">
-                    <option>Admin Type</option>
-                    <option>Employee</option>
-                  </Input>
-                </FormGroup>
+              <FormGroup>
+                <Label for="examplename" className="fw-bold">
+                  Name
+                </Label>
+                <Input
+                  id="examplename"
+                  name="name"
+                  placeholder="Name"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleEmail" className="fw-bold">
+                  Email
+                </Label>
+                <Input
+                  id="exampleEmail"
+                  name="email"
+                  placeholder="email"
+                  type="email"
+                  value={email}
+                  onChange={e => setemail(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="examplePassword" className="fw-bold">
+                  Password
+                </Label>
+                <Input
+                  id="examplePassword"
+                  name="password"
+                  placeholder="password"
+                  type="Password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleSelect" className="fw-bold">
+                  Select User Type
+                </Label>
+                <Input
+                  id="exampleSelect"
+                  name="select"
+                  type="select"
+                  value={userType}
+                  onChange={e => setUserType(e.target.value)}
+                >
+                  <option>Admin Type</option>
+                  <option>Employee</option>
+                  <option>Admin</option>
+                </Input>
+              </FormGroup>
 
-                <Button className="mt-2 bg-success w-100 text-black fs-5">
-                  {" "}<i className="bi bi-plus-circle" /> Add New User
-                </Button>
-              </Form>
+              <button
+                className="mt-2 bg-success w-100 text-black fs-5"
+                onClick={submitThis}
+              >
+                <i className="bi bi-plus-circle" /> Add New User
+              </button>
             </CardBody>
           </Card>
         </Col>

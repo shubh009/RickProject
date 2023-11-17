@@ -15,7 +15,7 @@ const navigation = [
   },
   {
     title: "Reports",
-    href: "#",
+    href: "/reports",
     icon: "bi bi-columns"
   },
   {

@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export const backendUrl = "http://localhost:9000/api";
-// export const backendUrl = "https://spring-green-walkingstick-wear.cyclic.app/api";
+//export const backendUrl = "http://localhost:9000/api";
+export const backendUrl =
+  "https://spring-green-walkingstick-wear.cyclic.app/api";
 // export const backendUrl = "";
 
 export const callAxios = async (method, route, body) => {
@@ -9,28 +10,28 @@ export const callAxios = async (method, route, body) => {
   if (method === "get") {
     return await axios[method](`${backendUrl}/${route}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     });
   } else if (method === "delete") {
     if (body) {
       return await axios[method](`${backendUrl}/${route}`, body, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
     } else {
       return await axios[method](`${backendUrl}/${route}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
     }
   } else {
     return await axios[method](`${backendUrl}/${route}`, body, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     });
   }
 };
