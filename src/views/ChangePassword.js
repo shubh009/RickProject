@@ -12,13 +12,38 @@ import {
   FormText,
   Button
 } from "reactstrap";
+import axios from "axios";
+import { backendUrl } from "../utils/axios";
+import { toastMessage } from "../utils/toast";
+import { useState } from "react";
 
 const ChangePassword = () => {
-  const tableData = [
-    { name: "Shubhanshu", email: "Shubh@gmail.com", acesstype: "emp" },
-    { name: "Anshu", email: "anshu@gmail.com", acesstype: "emp" },
-    { name: "Sajid", email: "sajid@gmail.com", acesstype: "emp" }
-  ];
+  const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
+
+  const ChangePassword = async () => {
+    if (password !== repassword) {
+      alert("Passwords don't match");
+    } else {
+      alert("API code...");
+      var token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTRiNDYzODNjN2RhOGNlZGZjOWFkMzMiLCJpYXQiOjE3MDAwMzAxNTEsImV4cCI6MTczMTU2NjE1MX0.th47PBLt5ds-1cvn3HavtobSObWo0dmLWIh8Ka3pTGo";
+      alert(token);
+      const { data } = await axios({
+        url: `${backendUrl}/auth/changePassword`,
+        method: "put",
+        data: {
+          newPassword: repassword
+        },
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        withcredentials: true
+      });
+      console.log(data);
+      toastMessage("Password Changed Successfully", "success");
+    }
+  };
 
   return (
     <div>
@@ -30,51 +55,39 @@ const ChangePassword = () => {
               Change Password
             </CardTitle>
             <CardBody>
-              <Form>
-                <FormGroup>
-                  <Label for="examplename" className="fw-bold">
-                    Name
-                  </Label>
-                  <Input id="examplename" name="name" placeholder="Name" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail" className="fw-bold">
-                    Email
-                  </Label>
-                  <Input
-                    id="exampleEmail"
-                    name="email"
-                    placeholder="email"
-                    type="email"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="examplePassword" className="fw-bold">
-                    New Password
-                  </Label>
-                  <Input
-                    id="examplePassword"
-                    name="password"
-                    placeholder="password"
-                    type="Password"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="examplePassword" className="fw-bold">
-                    Re-Type Password
-                  </Label>
-                  <Input
-                    id="examplePassword"
-                    name="password"
-                    placeholder="password"
-                    type="Re Password"
-                  />
-                </FormGroup>
+              <FormGroup>
+                <Label for="examplePassword" className="fw-bold">
+                  New Password
+                </Label>
+                <Input
+                  id="examplePassword"
+                  name="password"
+                  placeholder="password"
+                  type="Password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="NewPassword" className="fw-bold">
+                  Re-Type Password
+                </Label>
+                <Input
+                  id="NewPassword"
+                  name="password"
+                  placeholder="password"
+                  type="Password"
+                  value={repassword}
+                  onChange={e => setRepassword(e.target.value)}
+                />
+              </FormGroup>
 
-                <Button className="mt-2 bg-success w-100 text-black fs-5 mb-2">
-                  {" "}<i className="bi bi-key" /> Change Password
-                </Button>
-              </Form>
+              <Button
+                className="mt-2 bg-success w-100 text-black fs-5 mb-2"
+                onClick={ChangePassword}
+              >
+                {" "}<i className="bi bi-key" /> Change Password
+              </Button>
             </CardBody>
           </Card>
         </Col>

@@ -13,7 +13,6 @@ import {
 import axios from "axios";
 import { backendUrl } from "../utils/axios";
 import { toastMessage } from "../utils/toast";
-import { useNavigate } from "react-router-dom";
 
 const ManageUsers = () => {
 
@@ -38,7 +37,8 @@ const ManageUsers = () => {
           password: password,
           role: userType
         }
-      });
+      } );
+      toastMessage( "User Added Successfully", "success" );
       console.log( data );
       getTableData();
       //console.log(JSON.stringify(data.message));
@@ -81,7 +81,8 @@ const ManageUsers = () => {
     }
         
       )
-    console.log(data);
+    console.log( data );
+    toastMessage( "User Deleted Successfully", "danger" );
     getTableData();
   }
 
