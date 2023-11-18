@@ -8,6 +8,10 @@ import bg1 from "../assets/images/bg/bg1.jpg";
 import bg2 from "../assets/images/bg/bg2.jpg";
 import bg3 from "../assets/images/bg/bg3.jpg";
 import bg4 from "../assets/images/bg/bg4.jpg";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { backendUrl } from "../utils/axios";
+import moment from "moment";
 
 const BlogData = [
   {
@@ -16,7 +20,7 @@ const BlogData = [
     subtitle: "2 comments, 1 Like",
     description:
       "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary"
+    btnbg: "primary",
   },
   {
     image: bg2,
@@ -24,7 +28,7 @@ const BlogData = [
     subtitle: "2 comments, 1 Like",
     description:
       "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary"
+    btnbg: "primary",
   },
   {
     image: bg3,
@@ -32,7 +36,7 @@ const BlogData = [
     subtitle: "2 comments, 1 Like",
     description:
       "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary"
+    btnbg: "primary",
   },
   {
     image: bg4,
@@ -40,11 +44,29 @@ const BlogData = [
     subtitle: "2 comments, 1 Like",
     description:
       "This is a wider card with supporting text below as a natural lead-in to additional content.",
-    btnbg: "primary"
-  }
+    btnbg: "primary",
+  },
 ];
 
 const Starter = () => {
+  const [tabData, setTabData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [checked, seChecked] = useState(false);
+
+  useEffect(() => {
+    getTableData();
+  }, []);
+
+  const getTableData = async () => {
+    setLoading(true);
+    const { data } = await axios.get(
+      `${backendUrl}/dashboard/getDashboardData`
+    );
+    console.log(data);
+    setTabData(data?.dashboardData);
+    setLoading(false);
+  };
+
   return (
     <div>
       {/***Top Cards***/}
@@ -53,8 +75,15 @@ const Starter = () => {
           <TopCards
             bg="bg-light-success text-success"
             title="Profit"
-            subtitle="Total Push: August"
-            earning="21"
+            subtitle={`Total Push: ${moment()
+              .subtract(3, "month")
+              .format("MMMM")}`}
+            earning={
+              tabData.find(
+                (tdata) =>
+                  tdata.month === moment().subtract(3, "month").format("MMMM")
+              )?.monthlyCount || 0
+            }
             icon="bi bi-wallet"
           />
         </Col>
@@ -62,9 +91,15 @@ const Starter = () => {
           <TopCards
             bg="bg-light-danger text-danger"
             title="Refunds"
-            subtitle="Total Push: September"
-            month="Janurary"
-            earning="40"
+            subtitle={`Total Push: ${moment()
+              .subtract(2, "month")
+              .format("MMMM")}`}
+            earning={
+              tabData.find(
+                (tdata) =>
+                  tdata.month === moment().subtract(2, "month").format("MMMM")
+              )?.monthlyCount || 0
+            }
             icon="bi bi-coin"
           />
         </Col>
@@ -72,8 +107,15 @@ const Starter = () => {
           <TopCards
             bg="bg-light-warning text-warning"
             title="New Project"
-            subtitle="Total Push: October"
-            earning="456"
+            subtitle={`Total Push: ${moment()
+              .subtract(1, "month")
+              .format("MMMM")}`}
+            earning={
+              tabData.find(
+                (tdata) =>
+                  tdata.month === moment().subtract(1, "month").format("MMMM")
+              )?.monthlyCount || 0
+            }
             icon="bi bi-basket3"
           />
         </Col>
@@ -81,8 +123,11 @@ const Starter = () => {
           <TopCards
             bg="bg-light-info text-into"
             title="Sales"
-            subtitle="Total Push: November"
-            earning="210"
+            subtitle={`Total Push: ${moment().format("MMMM")}`}
+            earning={
+              tabData.find((tdata) => tdata.month === moment().format("MMMM"))
+                ?.monthlyCount || 0
+            }
             icon="bi bi-bag"
           />
         </Col>
@@ -91,7 +136,7 @@ const Starter = () => {
       {/***Table ***/}
       <Row>
         <Col lg="12">
-          <ProjectTables />
+          <ProjectTables tabData={tabData} />
         </Col>
       </Row>
     </div>

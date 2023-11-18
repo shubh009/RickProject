@@ -63,26 +63,8 @@ const tableData = [
   },
 ];
 
-const ProjectTables = () => {
-  const [tabData, setTabData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [checked, seChecked] = useState(false);
-
-  useEffect(() => {
-    getTableData();
-  }, []);
-
-  const getTableData = async () => {
-    
-      setLoading(true);
-      const { data } = await axios.get(
-        `${backendUrl}/dashboard/getDashboardData`
-      );
-      console.log(data);
-      setTabData(data?.dashboardData);
-      setLoading(false);
-    
-  };
+const ProjectTables = ({tabData}) => {
+ 
 
   return (
     <div>
