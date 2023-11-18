@@ -39,15 +39,14 @@ const ManageUsers = () => {
           role: userType
         }
       });
-      console.log(data);
+      console.log( data );
+      getTableData();
       //console.log(JSON.stringify(data.message));
     } catch (error) {
       console.error("Error during API call:", error);
       // Handle the error, show a user-friendly message, etc.
     }
   };
-
-
 
   useEffect(() => {
     getTableData();
@@ -67,6 +66,24 @@ const ManageUsers = () => {
       
     }
   };
+
+  const deletecard = async ( _id ) =>
+  { 
+    var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTRiNDYzODNjN2RhOGNlZGZjOWFkMzMiLCJpYXQiOjE3MDAyMzc5NzgsImV4cCI6MTczMTc3Mzk3OH0.rp_einW2jh2UV7EQEeCLOutbTG7ysVGZymA4Brl5R2g";
+    alert( token );
+    const { data } = await axios( {
+      url: `${backendUrl}/auth/deleteUser/${_id}`,
+      method: "delete",
+       headers: {
+          Authorization: `Bearer ${token}`
+        },
+      withcredentials: true
+    }
+        
+      )
+    console.log(data);
+    getTableData();
+  }
 
   return (
     <div>
@@ -105,7 +122,8 @@ const ManageUsers = () => {
                         {tdata.role}
                       </td>
                       <td className="text-center">
-                        <i className="bi bi-trash text-danger" />
+                        <button type="submit" onClick={()=>deletecard(tdata._id)}>  <i className="bi bi-trash text-danger" /></button>
+                        
                       </td>
                     </tr>
                   )}
