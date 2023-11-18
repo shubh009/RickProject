@@ -26,12 +26,12 @@ const ManageUsers = () => {
         <Col>
           <Card>
             <CardTitle tag="h6" className="border-bottom p-4 mb-0">
-              <h4 className="mt-1">
-                {" "}<i className="bi bi-bell me-2"> </i> Tracking Reports
-              </h4>
+              
               <Row>
                 <Col lg="6" className="mt-3">
-                  <button className="btn-success btn"> Download Button</button>
+                 <h4 className="mt-1">
+                {" "}<i className="bi bi-bell me-2"> </i> Tracking Reports
+              </h4>
                 </Col>
                 <Col lg="6" className="">
                   <FormGroup>
@@ -46,7 +46,7 @@ const ManageUsers = () => {
                     </Label>
 
                     <Label for="exampleEmail" className="m-2">
-                      <Label for="exampleEmail">end Date</Label>
+                      <Label for="exampleEmail text-capital">end Date</Label>
                       <Input
                         id="exampleEmail"
                         name="sdate"
@@ -67,7 +67,58 @@ const ManageUsers = () => {
       <Row>
         <Col>
           <Card className="p-3">
-            <CardTitle>Your Reports In Selected Date Range is</CardTitle>
+            <CardBody>
+
+              <Row>
+                <Col lg="5"></Col>
+                <Col lg="7">
+                  <button className="btn-outline-dark btn mx-2 ms-5"> Week1</button>
+                  <button className="btn-outline-dark btn mx-2"> Week2</button>
+                  <button className="btn-outline-dark btn mx-2"> Week3</button>
+                  <button className="btn-outline-dark btn mx-2"> Week4</button>
+                  <button className="btn-success btn ms-4"> Download Button</button>
+                </Col>
+              </Row>
+              
+           <Table className="no-wrap mt-3 align-middle" responsive bordered>
+            <thead>
+              <tr>
+                <th>Location</th>
+                <th>Total Push</th>
+
+                <th>18 Nov</th>
+                <th>19 Nov</th>
+                <th>20 Nov </th>
+                <th>21 Nov </th>
+                <th>22 Nov </th>
+                <th>23 Nov </th>
+                <th>24 Nov </th>
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.map((tdata, index) => (
+                <tr key={index} className="border-top">
+                  <td>
+                    <div className="d-flex align-items-center p-2">
+                      <div>
+                        <h6 className="mb-0">{tdata?.month}</h6>
+                        {/* <span className="text-muted">{tdata.email}</span> */}
+                      </div>
+                    </div>
+                  </td>
+                  <td>{tdata?.monthlyCount}</td>
+                  
+                  <td>{tdata?.week1}</td>
+                  <td>{tdata?.week2}</td>
+                  <td>{tdata?.week3}</td>
+                  <td>{tdata?.week4}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+            </CardBody>
+
+             
           </Card>
         </Col>
       </Row>

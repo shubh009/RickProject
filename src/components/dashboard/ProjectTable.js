@@ -93,7 +93,7 @@ const ProjectTables = () => {
             Snow Tracking Overview
           </CardSubtitle>
 
-          <Table className="no-wrap mt-3 align-middle" responsive borderless>
+          <Table className="no-wrap mt-3 align-middle" responsive bordered>
             <thead>
               <tr>
                 <th>Months</th>
