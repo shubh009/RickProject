@@ -71,9 +71,8 @@ const Sidebar = () => {
           <Button
             color="danger"
             tag="a"
-            target="_blank"
             className="mt-3"
-            href="#"
+            href="/#/login"
             style={{
               position: "absolute",
               bottom: "20px",

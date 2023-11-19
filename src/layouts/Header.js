@@ -75,7 +75,9 @@ const Header = () => {
             <span className="mx-2 fw-bold">Rick, K</span>
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem>Edit Profile</DropdownItem>
+            <DropdownItem>
+              <a href="/#/user-profile">Edit Profile</a>
+            </DropdownItem>
             <DropdownItem divider />
             <DropdownItem href="/change-password" Nav="true">
               Change Password
