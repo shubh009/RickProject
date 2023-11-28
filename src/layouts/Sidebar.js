@@ -9,8 +9,8 @@ const navigation = [
     icon: "bi bi-speedometer2"
   },
   {
-    title: "Gmail Access",
-    href: "#",
+    title: "Add Tracking",
+    href: "/tracking",
     icon: "bi bi-bell"
   },
   {
