@@ -1,8 +1,7 @@
 import axios from "axios";
 
-//export const backendUrl = "http://localhost:9000/api";
-export const backendUrl =
-  "https://spring-green-walkingstick-wear.cyclic.app/api";
+// export const backendUrl = "http://localhost:9000/api";
+export const backendUrl ="https://spring-green-walkingstick-wear.cyclic.app/api";
 // export const backendUrl = "";
 
 export const callAxios = async (method, route, body) => {

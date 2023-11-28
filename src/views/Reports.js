@@ -22,12 +22,13 @@ import { CSVLink } from "react-csv";
 
 const ManageUsers = () => {
   const [loading, setLoading] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [reportsData, setReportsData] = useState([]);
   const [dates, setDates] = useState([]);
   const [csvData, setCsvData] = useState([]);
   const [headers, setHeaders] = useState([]);
+  const [region, setRegion] = useState("nbw");
 
   console.log(startDate, endDate);
 
@@ -44,7 +45,9 @@ const ManageUsers = () => {
         "get",
         `dashboard/getReport?startDate=${moment(new Date(startDate)).format(
           "YYYY-MM-DD"
-        )}&endDate=${moment(new Date(endDate)).format("YYYY-MM-DD")}`
+        )}&endDate=${moment(new Date(endDate)).format(
+          "YYYY-MM-DD"
+        )}&region=${region}`
       );
       console.log(data);
       setLoading(false);
@@ -55,7 +58,10 @@ const ManageUsers = () => {
       headers1.push({ label: "Location", key: "city" });
       headers1.push({ label: "Total Push", key: "totalEmails" });
       data.result[0].dates.map((d) =>
-        headers1.push({ label: moment(d).format("DD MMM"), key:moment(d).format("DD MMM")  })
+        headers1.push({
+          label: moment(d).format("DD MMM"),
+          key: moment(d).format("DD MMM"),
+        })
       );
       console.log(headers1);
       setHeaders(headers1);
@@ -80,6 +86,12 @@ const ManageUsers = () => {
       toast.error("Something went wrong");
     }
   };
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      handleSearch();
+    }
+  }, [region]);
 
   console.log(dates);
 
@@ -141,9 +153,36 @@ const ManageUsers = () => {
             <Card className="p-3">
               <CardBody>
                 <Row>
-                  <Col lg="5"></Col>
-                  <Col lg="7">
-                    <button className="btn-outline-dark btn mx-2 ms-5">
+                  <Col lg="5">
+                    <button
+                      className={`${
+                        region === "nbw" ? "btn-success" : "btn-outline-dark"
+                      } btn mx-2 ms-5`}
+                      onClick={() => setRegion("nbw")}
+                    >
+                      {" "}
+                      NBW
+                    </button>
+                    <button
+                      className={` ${
+                        region === "nbe" ? "btn-success" : "btn-outline-dark"
+                      }  btn mx-2  `}
+                      onClick={() => setRegion("nbe")}
+                    >
+                      {" "}
+                      NBE
+                    </button>
+                  </Col>
+                  <Col
+                    lg="7"
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      alignItems: "center",
+                    }}
+                  >
+                    {/* <button className="btn-outline-dark btn mx-2 ms-5">
                       {" "}
                       Week1
                     </button>
@@ -158,18 +197,15 @@ const ManageUsers = () => {
                     <button className="btn-outline-dark btn mx-2">
                       {" "}
                       Week4
-                    </button>
-            
-                      {" "}
-                      <CSVLink
-                        data={csvData}
-                        headers={headers}
-                        filename={"Report.csv"}
-                        className="btn-success btn ms-4"
-                      >
-                        Download Button
-                      </CSVLink>
-                   
+                    </button>{" "} */}
+                    <CSVLink
+                      data={csvData}
+                      headers={headers}
+                      filename={`${region.toUpperCase()}_Report.csv`}
+                      className="btn-success btn ms-4"
+                    >
+                      Download Button
+                    </CSVLink>
                   </Col>
                 </Row>
 
