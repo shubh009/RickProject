@@ -15,7 +15,7 @@ const Login = () => {
   const submitThis = async () =>
   {
 
-    console.warn(email, passw);
+    console.log(email, passw);
     if ( email && passw )
     {
       let {data}=await axios({
@@ -25,7 +25,8 @@ const Login = () => {
         data: {
             email: email,
             password: passw
-            }
+            },
+            
       } )
       console.log( data );
       console.log(  JSON.stringify(data.token));

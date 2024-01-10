@@ -13,35 +13,76 @@ import {
 import axios from "axios";
 import { backendUrl } from "../utils/axios";
 import { toastMessage } from "../utils/toast";
+import moment from 'moment'
 
 const AddTracking = () =>
 { 
-    const [date, setdate] = useState("");
-    const [city, setcity] = useState("");
-    const [move, setMove] = useState("");
-    //const [ tabData, setTabData ] = useState( [ "" ] );
-     const tabData = [
-         {
-              Date: "26 Oct",
-              City: "Abc",
-              Move: "1",
-         },
-         {
-              Date: "28 Nov",
-              City: "Abc",
-              Move: "0",
-         },
-         {
-              Date: "11 Dec",
-              City: "Abc",
-              Move: "1",
-         },
-         {
-              Date: "22 Oct",
-              City: "Abc",
-              Move: "0",
-         },
-        ]
+    const sDate = new Date();
+    const [date, setdate] = useState("2023-11-27");
+    const [city, setcity] = useState("Carbury");
+    const [ tabData, setTabData ] = useState( [ "" ] );
+    
+  
+  useEffect(() => {
+    getTableData();
+  }, [] );
+  
+  const getTableData = async () => {
+    try
+    {
+      
+      var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTRiNDYzODNjN2RhOGNlZGZjOWFkMzMiLCJpYXQiOjE3MDAyMzc5NzgsImV4cCI6MTczMTc3Mzk3OH0.rp_einW2jh2UV7EQEeCLOutbTG7ysVGZymA4Brl5R2g";
+      
+      let { data } = await axios({
+        method: "get",
+        url: `${backendUrl}/dashboard/getTracking`,
+        data: {
+          date: date,
+          city: city
+        },
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      withcredentials: true
+      } );
+      console.log(data);
+      setTabData(data?.tracking);
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  };
+  
+  
+  const submitThis = async () =>
+  { 
+    alert( date + city );
+    try
+    { 
+      var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTRiNDYzODNjN2RhOGNlZGZjOWFkMzMiLCJpYXQiOjE3MDAyMzc5NzgsImV4cCI6MTczMTc3Mzk3OH0.rp_einW2jh2UV7EQEeCLOutbTG7ysVGZymA4Brl5R2g";
+      let { data } = await axios({
+        method: "post",
+        url: `${backendUrl}/dashboard/createTracking`,
+        data: {
+          date: date,
+          city: city
+        },
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      withcredentials: true
+      } );
+      console.log( data );
+      getTableData();
+      alert( data.message );
+    }
+    catch {
+      
+    }
+  }
+  
+    
     return (
         <>
              <Row>
@@ -65,17 +106,18 @@ const AddTracking = () =>
                         <div className="d-flex align-items-center p-2">
                           <div>
                             <h6 className="mb-0">
-                              {tdata.Date}
+                              {moment(tdata.date).format('LL')}
                             </h6>
                           </div>
                         </div>
                       </td>
                       <td>
-                        {" "}{tdata.City}
+                        {" "}{tdata.city}
                       </td>
                       <td>
-                        {tdata.Move}
+                        1
                       </td>
+                      
                      
                     </tr>
                   )}
@@ -99,7 +141,8 @@ const AddTracking = () =>
                   name="name"
                   placeholder="Name"
                   value={date}
-                  onChange={e => setdate(e.target.value)}
+                  onChange={ e => setdate( e.target.value ) }
+                  type="date"
                 />
               </FormGroup>
               <FormGroup>
@@ -109,26 +152,16 @@ const AddTracking = () =>
                 <Input
                   id="exampleEmail"
                   name="email"
-                  placeholder="email"
+                  placeholder="City"
                   type="city"
                   value={city}
                   onChange={e => setcity(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup>
-                <Label for="examplePassword" className="fw-bold">
-                  Password
-                </Label>
-                <Input
-                  id="examplePassword"
-                  name="password"
-                  value={move}
-                  onChange={e => setMove(e.target.value)}
-                />
-              </FormGroup>
               
-              <button
-                className="mt-2 bg-success w-100 text-black fs-5"
+              
+              <button onClick={submitThis}
+                className="mt-2 bg-success w-100 text-black fs-5 btn"
               >
                 <i className="bi bi-plus-circle" /> Add New Tracking
               </button>
