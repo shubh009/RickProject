@@ -27,6 +27,13 @@ const Header = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
+
   return (
     <Navbar color="success" dark expand="md" className="shadow-lg">
       <div className="d-flex align-items-center">
@@ -82,7 +89,7 @@ const Header = () => {
             <DropdownItem href="/change-password" Nav="true">
               Change Password
             </DropdownItem>
-            <DropdownItem>Logout</DropdownItem>
+            <DropdownItem onClick={handleLogout} >Logout</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </Collapse>
