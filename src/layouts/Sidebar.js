@@ -1,6 +1,6 @@
 import { Button, Nav, NavItem } from "reactstrap";
 import Logo from "./Logo";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const navigation = [
   {
@@ -34,7 +34,12 @@ const Sidebar = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
-  let location = useLocation();
+
+  const location = useLocation();
+
+  const handleNavigation = (href) => {
+    window.location.href = href;  // Directly setting the window location
+  };
 
   return (
     <div className="p-3">
@@ -51,23 +56,24 @@ const Sidebar = () => {
       </div>
       <div className="pt-4 mt-2">
         <Nav vertical className="sidebarNav">
-          {navigation.map((navi, index) =>
-            <NavItem key={index} className="sidenav-bg">
-              <Link
-                to={navi.href}
+          {navigation.map((navi, index) => (
+            <div key={index} className="sidenav-bg">
+              <p
+                onClick={() => handleNavigation(navi.href)}
                 className={
                   location.pathname === navi.href
                     ? "text-primary nav-link py-3"
                     : "nav-link text-secondary py-3"
                 }
+                style={{ cursor: "pointer" }}
               >
                 <i className={navi.icon} />
                 <span className="ms-3 d-inline-block">
                   {navi.title}
                 </span>
-              </Link>
-            </NavItem>
-          )}
+              </p>
+            </div>
+          ))}
           <Button
             color="danger"
             tag="a"
