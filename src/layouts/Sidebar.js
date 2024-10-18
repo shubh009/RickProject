@@ -38,6 +38,12 @@ const Sidebar = () => {
   const location = useLocation();
 
   const handleNavigation = (href) => {
+
+    if(href=="login"){
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+    }
+
     window.location.href = href;  // Directly setting the window location
   };
 
@@ -78,7 +84,7 @@ const Sidebar = () => {
             color="danger"
             tag="a"
             className="mt-3"
-            href="/#/login"
+            onClick={()=>{handleNavigation("login")}}
             style={{
               position: "absolute",
               bottom: "20px",

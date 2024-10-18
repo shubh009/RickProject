@@ -32,7 +32,7 @@ const Login = () => {
       localStorage.setItem("token", JSON.stringify(data.token));
       localStorage.setItem( "user", JSON.stringify( data.user ) );
       toastMessage( "Login Successfully", "success" );
-      navigate('/starter');
+      window.location.href = 'starter'
       //alert( "Submitted Successfully" );
     }
     else
